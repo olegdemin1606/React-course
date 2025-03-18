@@ -1,0 +1,20 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+  }
+  
+  .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #343a40;
+  }
+  
+  .menu {
+    font-size: 18px;
+    color: #343a40;
+  }
+  
