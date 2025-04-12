@@ -1,5 +1,5 @@
 export function calculateAge(birthDateString) {
-    const [day, month, year] = birthDateString.split('.').map(Number);
+    const [year, month, day] = birthDateString.split('-').map(Number);
     const birthDate = new Date(year, month - 1, day); // Месяцы в JavaScript начинаются с 0
     const today = new Date();
     let age = today.getFullYear() - birthDate.getFullYear();
@@ -11,3 +11,13 @@ export function calculateAge(birthDateString) {
     }
     return age;
 }
+
+export function getCurrentDate() {
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // Месяцы в JS начинаются с 0
+    const year = today.getFullYear();
+
+    return `${year}-${month}-${day}`;
+}
+

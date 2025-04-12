@@ -1,21 +1,22 @@
 import styles from './taskList.module.css';
-import { useMemo, useState } from 'react';
+import { useContext, useMemo, useState } from 'react';
 import { calculateAge } from '../utils/date';
+import { MyContext } from '../store/Context';
 
-export default function TaskList({list, setList}) {
+export default function TaskList({list}) {
     return(
         <div>
-            {list.map(item=><TaskItem key={item.id} item={item} setList={setList}/>)}
+            {list.map(item=><TaskItem key={item.id} item={item}/>)}
             {!list.length && <h4>Нет записей</h4>}
         </div>
     )
-
 }
 
-function MemberItem({itemId, member, setList}) {
+function MemberItem({itemId, member}) {
     const [isEdit, setIsEdit] = useState(false)
     const [editFields, setEditFields] = useState(member)
     const [errors, setErrors] = useState({})
+    const { dispatch } = useContext(MyContext);
 
     const handleEdit = (e, isEdit) =>{
         e.stopPropagation();
@@ -29,7 +30,7 @@ function MemberItem({itemId, member, setList}) {
     }
 
     const handleSave =()=>{
-        setList(prevState=>prevState.map(item=>item.id === itemId ? {...item, members: item.members.map(member=>member.id === editFields.id ? editFields : member)} : item))
+        dispatch({type: 'CHANGE_LIST_ITEM_MEMBER', payload: {itemId, member:editFields}})
         setIsEdit(false)
     }
 
@@ -41,7 +42,7 @@ function MemberItem({itemId, member, setList}) {
     {isEdit ?
      <div onClick={e=>e.stopPropagation()}>
         <div>ФИО<input name='fio' value={editFields.fio} onChange={handleInput}/>{errors.fio}</div>
-        <div>Дата рождения<input name='date' value={editFields.date} onChange={handleInput}/>{errors.date}</div>
+        <div>Дата рождения<input name='date' type='date' value={editFields.date} onChange={handleInput}/>{errors.date}</div>
         <button onClick={handleSave} disabled={isDisabled}>V</button>
         <button onClick={(e)=>handleEdit(e, false)}>X</button>
      </div>: 
@@ -51,15 +52,16 @@ function MemberItem({itemId, member, setList}) {
     </>)
 }
 
-function TaskItem({item, setList}) {
+function TaskItem({item}) {
     const [isDetail, setIsDetail] = useState(false)
+    const { dispatch } = useContext(MyContext);
 
     const handleToggle = () => {
         setIsDetail(prevState=>!prevState)
     }
     const handleComplite = (e) => {
         e.stopPropagation()
-        setList(prevState=>prevState.map(listItem=>listItem.id === item.id ? {...listItem, status: 'complite'} : listItem))
+        dispatch({type: 'CHANGE_LIST_ITEM', payload: {item: {...item, status: 'complite'}}})
     }
     return(
         <div className={styles.item} onClick={handleToggle}>
@@ -73,7 +75,7 @@ function TaskItem({item, setList}) {
             <div>Участники:
                 <ul>
                 {item.members.map(member=><li key={member.id}>
-                    <MemberItem member={member} setList={setList} itemId={item.id}/>
+                    <MemberItem member={member} itemId={item.id}/>
                     </li>)} 
                 </ul>
             </div>
