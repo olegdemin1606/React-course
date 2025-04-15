@@ -1,0 +1,27 @@
+.memoryGame {
+    text-align: center;
+  }
+  
+  .cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .card {
+    border: 1px solid #000;
+    margin: 10px;
+    padding: 20px;
+    cursor: pointer;
+    user-select: none;
+  }
+  
+  .selected {
+    background-color: #f0f0f0;
+  }
+  
+  .result {
+    margin-top: 20px;
+    font-size: 1.2em;
+  }
+  

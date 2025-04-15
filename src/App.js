@@ -2,10 +2,11 @@ import Banner from "./components/banner/Banner";
 import ListFilter from "./components/filter/ListFilter";
 import ListForm from "./components/form/ListForm";
 import Header from "./components/header/Header";
+import MemoryGame from "./components/memoryGame/MemoryGame";
 import ListSort from "./components/sort/ListSort";
 import { MyContext } from "./components/store/Context";
 import TaskList from "./components/taskList/TaskList";
-import {useState, useMemo, useContext} from 'react';
+import {useState, useMemo, useContext, useRef} from 'react';
 
 const footerStyle = {
   padding: '20px',
@@ -26,6 +27,13 @@ function App() {
   const [sort, setSort] = useState('default');
   const { state, dispatch } = useContext(MyContext);
   const {list} = state;
+  const elementRef = useRef(null);
+
+  const scrollToElement = () => {
+    if (elementRef.current) {
+      elementRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   const sortedList = useMemo(()=>{
     let filteredList = list
@@ -79,11 +87,14 @@ function App() {
           <Header/>
           Магазин картин
           <Banner/>
+          <MemoryGame />
+          <button onClick={scrollToElement}>Скролл к футеру</button>
           Поиск по меткам<ListFilter value={filter} setValue={setFilter}/>
           Сортировка<ListSort value={sort} setValue={setSort}/>
           <ListForm/>
           <TaskList list={sortedList}/>
           <Footer/>
+          <div ref={elementRef}></div>
       </div>
   );
 }
