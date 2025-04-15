@@ -2,6 +2,7 @@ import Banner from "./components/banner/Banner";
 import ListFilter from "./components/filter/ListFilter";
 import ListForm from "./components/form/ListForm";
 import Header from "./components/header/Header";
+import ImageCarousel from "./components/imageCarousel/ImageCarousel";
 import MemoryGame from "./components/memoryGame/MemoryGame";
 import ListSort from "./components/sort/ListSort";
 import { MyContext } from "./components/store/Context";
@@ -71,7 +72,6 @@ function App() {
       case 'default':
       default:
         filteredList.sort((a, b) => {
-          console.log('T',a.complited_at, b.complited_at)
           const dateA = new Date(a.complited_at);
           const dateB = new Date(b.complited_at);
           return dateB - dateA;
@@ -88,6 +88,7 @@ function App() {
           Магазин картин
           <Banner/>
           <MemoryGame />
+          <ImageCarousel />
           <button onClick={scrollToElement}>Скролл к футеру</button>
           Поиск по меткам<ListFilter value={filter} setValue={setFilter}/>
           Сортировка<ListSort value={sort} setValue={setSort}/>
